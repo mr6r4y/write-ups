@@ -8,6 +8,7 @@ Personal write-ups for various CTFs, Wargames, etc.
 * [Damn Vulnerable Arm Router](https://github.com/mr6r4y/write-ups/tree/master/challenges/blog.exploitlab.net%40dvar)
 * crackmes.de: [64bit_Confusion](https://github.com/mr6r4y/write-ups/tree/master/challenges/crackmes.de%4064bit_Confusion)
 * By Gynvael: [ezpz](https://github.com/mr6r4y/write-ups/tree/master/challenges/Gynvael%40ezpz), [ReRe](https://github.com/mr6r4y/write-ups/tree/master/challenges/Gynvael%40ReRe)
+* [you-shall-not-pass at VolgaCTF-2018](https://github.com/mr6r4y/write-ups/tree/master/challenges/volgactf-2018%40you-shall-not-pass)
 
 ### pwnable.kr
 
