@@ -12,4 +12,4 @@ key.txt: 64bit_Confusion.patched
 clean:
 	rm -f 64bit_Confusion 64bit_Confusion.patched 64_bit_README key.txt
 
-.PHONY: clean all exec
+.PHONY: clean all
