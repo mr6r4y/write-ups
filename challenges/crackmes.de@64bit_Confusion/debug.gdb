@@ -5,6 +5,7 @@ break *(main+0x1fd)
 # Run with 1 arg
 run aaaa
 
-# Print their_calculated_key stored in local variable [rbp - 0x40]
-printf "%d\n", *(int*)($rbp-0x40)
+# The key is stored in local variable [rbp - 0x40]
+# Save the key in key.txt
+python open("key.txt", "w").write(str(gdb.parse_and_eval("*(int*)($rbp-0x40)")))
 quit

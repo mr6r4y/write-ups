@@ -12,5 +12,13 @@ However, I spent some time researching ELF format in order to fix its sections. 
 
 The "protection" is a check after `ptrace` call which is easily patched.
 
+## Scripts
 
+    $ cd write-ups/challenges/crackmes.de@64bit_Confusion
+    $ make
+    ...
+    $ ./64bit_Confusion.patched `cat key.txt`
 
+    You have entered: 8675309
+
+    You have CRACKED me! Congratulations!
