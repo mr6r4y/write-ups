@@ -23,7 +23,7 @@ After an initial analysis it is obvious that there is a packer present. We have 
 (ind, opn, op_arg, op_extarg, jmp_offset, desc)
 ```
 
-Armed with this I could handle the `_` function and fully analyze it - [initial_analysis.md](initial_analysis.md). The packing scheme is using the first 13 bytes after the `JUMP_ABSOLUTE` to `XOR` the packed code. The same packing mechanism is used for `crackme` function. With [disas_rere.py](disas_rere.py) I could play around and disassemble `_` which role is to encode strings:
+Armed with this I could handle the `_` function and fully analyze it - [initial_analysis.md](work-notes/initial_analysis.md). The packing scheme is using the first 13 bytes after the `JUMP_ABSOLUTE` to `XOR` the packed code. The same packing mechanism is used for `crackme` function. With [disas_rere.py](disas_rere.py) I could play around and disassemble `_` which role is to encode strings:
 
 ```python
 def _(x):
@@ -35,7 +35,7 @@ When trying to unpack and analyze `crackme` with the same approach, I hit anothe
 * all strings in `crackme` were encoded with `_`
 * it had another layer of packing using the same system
 
-I had to automate the whole unpacking process. In order to do that and to assemble the function definitions in `crackme` I wrote a simple Python bytecode interpreter - `SimplePythonInterp` in [unpack_crackme.py](unpack_crackme.py). In `unpack_crackme.py` I automate the unpacking process and the decoding of the strings. `unpack_crackme.py` produces a fully unpacked bytecode disassembly of `crackme` - [rere_crackme_unpk.btc](rere_crackme_unpk.btc).
+I had to automate the whole unpacking process. In order to do that and to assemble the function definitions in `crackme` I wrote a simple Python bytecode interpreter - `SimplePythonInterp` in [unpack_crackme.py](unpack_crackme.py). In `unpack_crackme.py` I automate the unpacking process and the decoding of the strings. `unpack_crackme.py` produces a fully unpacked bytecode disassembly of `crackme` - [rere_crackme_unpk.btc](work-notes/rere_crackme_unpk.btc).
 
 ### Searching for the Key
 
