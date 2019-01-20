@@ -30,3 +30,4 @@ Personal write-ups for various CTFs, Wargames, etc.
 * [lotto](https://github.com/mr6r4y/write-ups/tree/master/challenges/pwnable.kr/lotto)
 * [cmd1](https://github.com/mr6r4y/write-ups/tree/master/challenges/pwnable.kr/cmd1)
 * [cmd2](https://github.com/mr6r4y/write-ups/tree/master/challenges/pwnable.kr/cmd2)
+* [uaf](https://github.com/mr6r4y/write-ups/tree/master/challenges/pwnable.kr/uaf)
