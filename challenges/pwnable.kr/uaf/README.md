@@ -29,3 +29,10 @@ At `main()` you can see the dereference of method `introduce` as:
 ```
 
 We can now construct a payload that has its first 8 bytes a pointer (mind the `add rax, 8`) that will have the address of `Human::give_shell`.
+
+# Resources
+
+- http://docs.pwntools.com/en/stable/gdb.html
+- https://gef.readthedocs.io/en/latest/commands/heap/
+- https://0x00sec.org/t/heap-exploitation-abusing-use-after-free/3580
+- https://sploitfun.wordpress.com/2015/02/10/understanding-glibc-malloc/
