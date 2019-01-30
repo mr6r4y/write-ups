@@ -5,7 +5,7 @@ sbxor = importlib.import_module('03-single-byte-xor')
 
 
 def main():
-    with open("4.txt", "r") as txt:
+    with open("data/4.txt", "r") as txt:
         for n, line in enumerate(txt):
             a = sbxor.xor_1byte(line.strip())
             if a:

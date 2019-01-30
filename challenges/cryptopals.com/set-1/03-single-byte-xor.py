@@ -39,9 +39,12 @@ def xor_1byte(enc):
         v.append((_truth_ratio([(spell_checker.check(i.decode("ascii").lower()) if i else False) for i in words]), p))
 
     if v:
-        return sorted(v, key=lambda x: x[0], reverse=True)[0][1].decode("ascii")
-    else:
-        return None
+        vv = sorted(v, key=lambda x: x[0], reverse=True)[0]
+
+        if vv[0] > 0.1:
+            return vv[1].decode("ascii")
+
+    return None
 
 
 
