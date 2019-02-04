@@ -10,34 +10,42 @@ import os
 SCRIPT_PATH = os.path.dirname(__file__)
 
 
-def main():
-    initial = ["{:d}\n".format(random.randint(8, 16)),
-               "{:d}\n".format(random.randint(16, 32)),
-               "{:d}\n".format(random.randint(32, 64)),
-               "{:d}\n".format(random.randint(64, 128)),
-               "{:d}\n".format(random.randint(128, 256)),
-               "{:d}\n".format(random.randint(256, 512)),
-               "{:d}\n".format(random.randint(512, 1024)),
-               "{:d}\n".format(random.randint(1024, 2048)),
-               "{:d}\n".format(random.randint(2048, 4096)),
-               "{:d}\n".format(random.randint(4096, 4096 * 2))]
+def make_inititial_set():
+    return [
+        "{:d}\n".format(random.randint(2**3, 2**4)),
+        "{:d}\n".format(random.randint(2**4, 2**5)),
+        "{:d}\n".format(random.randint(2**5, 2**6)),
+        "{:d}\n".format(random.randint(2**6, 2**7)),
+        "{:d}\n".format(random.randint(2**7, 2**8)),
+        "{:d}\n".format(random.randint(2**8, 2**9)),
+        "{:d}\n".format(random.randint(2**9, 2**10)),
+        "{:d}\n".format(random.randint(2**10, 2**11)),
+        "{:d}\n".format(random.randint(2**11, 2**12)),
+        "{:d}\n".format(random.randint(2**12, 2**13))
+    ]
 
-    second = ["{:d}\n".format(10),
-              "{:d}\n".format(18),
-              "{:d}\n".format(62),
-              "{:d}\n".format(88),
-              "{:d}\n".format(189)]
-    i = len(second)
+
+def main():
+    initial_set = make_inititial_set()
+
+    # Found that this finishes the 5th test and stops at 6th
+    better_set = ["{:d}\n".format(10),
+                  "{:d}\n".format(18),
+                  "{:d}\n".format(62),
+                  "{:d}\n".format(88),
+                  "{:d}\n".format(189)]
+
+    i = len(better_set)
 
     old_out = None
     while i < 10:
         s = process(["nc", "0", "9022"])
 
         for j in range(10):
-            if j < len(second):
-                s.sendline(second[j])
+            if j < len(better_set):
+                s.sendline(better_set[j])
             else:
-                s.sendline(initial[j])
+                s.sendline(initial_set[j])
 
         out = s.recvall()
 
@@ -48,19 +56,10 @@ def main():
 
         if len(out) > len(old_out) + 38:
             old_out = out
-            second.append(initial[i])
+            better_set.append(initial_set[i])
             i += 1
 
-        initial = ["{:d}\n".format(random.randint(8, 16)),
-                   "{:d}\n".format(random.randint(16, 32)),
-                   "{:d}\n".format(random.randint(32, 64)),
-                   "{:d}\n".format(random.randint(64, 128)),
-                   "{:d}\n".format(random.randint(128, 256)),
-                   "{:d}\n".format(random.randint(256, 512)),
-                   "{:d}\n".format(random.randint(512, 1024)),
-                   "{:d}\n".format(random.randint(1024, 2048)),
-                   "{:d}\n".format(random.randint(2048, 4096)),
-                   "{:d}\n".format(random.randint(4096, 4096 * 2))]
+        initial_set = make_inititial_set()
 
     print(out)
 
