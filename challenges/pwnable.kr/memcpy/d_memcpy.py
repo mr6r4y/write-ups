@@ -23,7 +23,7 @@ def main():
     ])
 
     gdb_script = "\n".join([
-       "gef config context.enable False",
+        "gef config context.enable False",
         "break *(main+0x41b)",  # end of main 64bit
         # "break *0x08048bdb",  # end of main 32bit
         "break fast_memcpy",
