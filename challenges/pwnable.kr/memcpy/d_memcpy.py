@@ -16,15 +16,14 @@ SCRIPT_PATH = os.path.dirname(__file__)
 def main():
     gdb_break_script = "\n".join([
         "commands",
-            # "dereference $ebp+0x8 l1",  # 32bit
             "dereference $rdi l1",  # 64bit
+            # "dereference $ebp+0x8 l1",  # 32bit
             "continue",
         "end",
     ])
 
     gdb_script = "\n".join([
        "gef config context.enable False",
-        # "break *(main+0x25d)",
         "break *(main+0x41b)",  # end of main 64bit
         # "break *0x08048bdb",  # end of main 32bit
         "break fast_memcpy",
