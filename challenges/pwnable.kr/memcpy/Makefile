@@ -1,9 +1,9 @@
 all: memcpy
 
-memcpy_32b: memcpy.c
-	gcc -o $@ $^ -lm -m32 -malign-data=abi -no-pie
-
 memcpy: memcpy.c
+	gcc -o $@ $^ -m32 -lm -no-pie
+
+memcpy_64b: memcpy.c
 	gcc -o $@ $^ -lm -no-pie
 
 clean:

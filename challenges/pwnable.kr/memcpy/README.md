@@ -42,7 +42,7 @@ Read about symbol table and how to find functions defined locally in the executa
 
 Could not understand conditions of `printf` buffering so I tried to write a script that makes random suggestions. Could not reproduce cut-the-stdout behaviour locally.
 
-## 3.1
+## ~3.1~
 
 Reproduce the program behaviour locally.
 
@@ -50,6 +50,8 @@ Reproduce the program behaviour locally.
 
 - [x] ~Try automated interaction to look more like real one - use `s.recv` and `s.sendline`~
 - [x] Read [pwntools docs][17]
+
+At the end I could not reproduce this locally. Probably due to newer version of GCC.
 
 ## ~3.1.1~
 
@@ -120,7 +122,14 @@ Try to compile the app as 32 bit ELF
 
 ### Notes
 
-Still cannot reproduce program halt.
+Still cannot reproduce program halt but in a comment in `memcpy.c` I see:
+
+    // compiled with : gcc -o memcpy memcpy.c -m32 -lm
+
+The needed package for Ubuntu to be able to compile 32bit:
+
+    sudo apt-get install gcc-multilib
+
 
 ## 5.1.1
 
@@ -216,6 +225,7 @@ For 64 bit ELF:
 
 - [x] [Undefined Reference to pow()][1]
 - [x] [Make GCC not to compile with PIE][2]
+- [x] [Compile 32bit apps on 64bit Ubuntu][23]
 
 ## GDB
 
@@ -233,7 +243,7 @@ For 64 bit ELF:
 - [x] [setvbuf][7]
 - [ ] [mmap][8]
 - [x] [C Programming: setvbuf][9]
-- [ ] [Stdout Buffering][10]
+- [x] [Stdout Buffering][10]
 - [ ] [SOF: Why does printf not flush after the call unless a newline is in the format string?][16]
 - [ ] [Unix Buffering][18]
 - [x] [dup2][19]
@@ -252,7 +262,7 @@ For 64 bit ELF:
 ## Hints
 
 - [ ] [memcpy hints][20]
-- [ ] [MOVNTPS][21]
+- [x] [MOVNTPS][21]
 - [ ] [Alignment in C][22]
 
 
@@ -278,3 +288,4 @@ For 64 bit ELF:
 [20]: https://github.com/Macmod/pwnable-writeups
 [21]: https://www.felixcloutier.com/x86/movntps
 [22]: https://wr.informatik.uni-hamburg.de/_media/teaching/wintersemester_2013_2014/epc-14-haase-svenhendrik-alignmentinc-paper.pdf
+[23]: https://stackoverflow.com/questions/22355436/how-to-compile-32-bit-apps-on-64-bit-ubuntu
