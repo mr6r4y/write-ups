@@ -83,7 +83,7 @@ Stub:
     27:   4d 31 f6                xor    r14,r14
     2a:   4d 31 ff                xor    r15,r15
 
-## 3
+## 3 ✓
 
 Write shellcode
 
@@ -123,7 +123,7 @@ Write shellcode in `shellcode.s` for GNU `as`
 - [ ] [X86 Assembly/GAS Syntax](https://en.wikibooks.org/wiki/X86_Assembly/GAS_Syntax)
 - [ ] [NASM Assembly Language Tutorials](https://asmtutor.com/)
 
-## 3.1.3 ✓
+## 3.1.3
 
 Write shellcode using Python's `keystone`
 
