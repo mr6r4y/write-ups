@@ -31,3 +31,4 @@ Personal write-ups for various CTFs, Wargames, etc.
 * [cmd1](https://github.com/mr6r4y/write-ups/tree/master/challenges/pwnable.kr/cmd1)
 * [cmd2](https://github.com/mr6r4y/write-ups/tree/master/challenges/pwnable.kr/cmd2)
 * [uaf](https://github.com/mr6r4y/write-ups/tree/master/challenges/pwnable.kr/uaf)
+* [asm](https://github.com/mr6r4y/write-ups/tree/master/challenges/pwnable.kr/asm)
