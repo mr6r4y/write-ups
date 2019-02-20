@@ -54,3 +54,8 @@ print disasm(stub)
     2a:   4d 31 ff                xor    r15,r15
 
 You can find my shellcode in [shellcode.c](shellcode.c) and the compilation rules are in [Makefile](Makefile).
+
+After that it is simple:
+
+    HOME~$ scp -P 2222 ./shellcode.bin asm@pwnable.kr:/dev/shm
+    REMOTE~$ nc 0 9026 < /dev/shm/shellcode.bin
