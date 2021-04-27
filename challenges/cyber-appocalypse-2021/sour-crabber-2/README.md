@@ -1,4 +1,4 @@
-# Sour Crabber 2
+# SoulCrabber 2
 
 ## Description
 
