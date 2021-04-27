@@ -35,5 +35,5 @@ Personal write-ups for various CTFs, Wargames, etc.
 
 * [Alienware](https://github.com/mr6r4y/write-ups/tree/master/challenges/cyber-appocalypse-2021/alienware)
 * [Backdoor](https://github.com/mr6r4y/write-ups/tree/master/challenges/cyber-appocalypse-2021/backdoor)
-* [Sour Crabber](https://github.com/mr6r4y/write-ups/tree/master/challenges/cyber-appocalypse-2021/sour-crabber)
-* [Sour Crabber 2](https://github.com/mr6r4y/write-ups/tree/master/challenges/cyber-appocalypse-2021/sour-crabber-2)
+* [SoulCrabber](https://github.com/mr6r4y/write-ups/tree/master/challenges/cyber-appocalypse-2021/sour-crabber)
+* [SoulCrabber 2](https://github.com/mr6r4y/write-ups/tree/master/challenges/cyber-appocalypse-2021/sour-crabber-2)
