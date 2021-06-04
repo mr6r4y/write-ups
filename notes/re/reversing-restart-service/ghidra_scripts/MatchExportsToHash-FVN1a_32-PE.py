@@ -33,15 +33,11 @@ def main():
             syscall_dword = getInt(toAddr(func_addr.getOffset() + 4))
         except MemoryAccessException:
             syscall_dword = None
-        s = fnv1a_32(func_name.getBytes()[2:]) if func_name else 0x0
-        s_orig = fnv1a_32([ord(i) for i in func_name_orig[2:]] + [0]) if func_name_orig else 0x0
+        s = fnv1a_32(func_name.getBytes()[2:-1]) if func_name else 0x0
+        s_orig = fnv1a_32([ord(i) for i in func_name_orig[2:]]) if func_name_orig else 0x0
 
-        if syscall_dword == 0:
-            print("name: %s, name_orig: %s, func_addr: %s, syscall: %s, s: 0x%X, s_orig: 0x%X, s_should_be: 0x%X" % (func_name, func_name_orig, func_addr, syscall_dword, s, s_orig, hashes[0]))
-        # if func_name is None or func_addr is None:
-        #     print("name: %s, func_addr: %s, syscall: %s" % (func_name, func_addr, syscall_dword))
-        # if syscall_dword and func_name and func_name.getValue() == "NtAccessCheck":
-        #     print("name: %s, func_addr: %s, syscall: %s" % (func_name, func_addr, syscall_dword))
+        if (s in hashes or s_orig in hashes) and func_name and func_name.getValue().startswith("Nt"):
+            print("name: %s, name_orig: %s, func_addr: %s, syscall: %s, s: 0x%X, s_orig: 0x%X" % (func_name, func_name_orig, func_addr, syscall_dword, s, s_orig))
 
 
 if __name__ == "__main__":

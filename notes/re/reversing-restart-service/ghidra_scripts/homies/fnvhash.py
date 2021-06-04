@@ -20,7 +20,7 @@ FNV1_64A_INIT = FNV1_64_INIT
 
 import sys
 # if sys.version_info[0] == 3:
-_get_byte = lambda c: long(c) & 0xff
+_get_byte = lambda c: int(c)
 # else:
 #     _get_byte = ord
 
