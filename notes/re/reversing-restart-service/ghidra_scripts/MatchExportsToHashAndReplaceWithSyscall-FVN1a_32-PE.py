@@ -1,4 +1,4 @@
-#Match export function name FVN1a_32 hash in a shared library (Windows PE) against a list of hashes
+#Match export function name FVN1a_32 hash in a shared library (Windows PE) against a list of hashes and replace them with appropriate syscall at memory
 #@author mr6r4y
 #@category -Restart-Service-
 #@keybinding
