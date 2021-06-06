@@ -8,4 +8,4 @@ So lets start ..
 
 First thing that is noticed is the wrong default Compiler ID guessed by Ghidra so we need to fix it:
 
-[![Watch the video](figs/video.png)](https://vimeo.com/559584993)
+[![Watch the video](figs/v1.gif)](https://vimeo.com/559584993)
