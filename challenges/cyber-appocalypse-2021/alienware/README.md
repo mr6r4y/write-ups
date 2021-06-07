@@ -218,7 +218,7 @@ aaaaand this **WORKED** !
 Ofcourse WINE is installed from the Wine repository (check in Google). You run anything with Wine such as:
 
 ```
-wpwn ~/archs/python-3.8.9-amd64.exe 
+wpwn ~/archs/python-3.8.9-amd64.exe
 wpwn pip install cryptography
 wpwn pip install pwntools
 ```

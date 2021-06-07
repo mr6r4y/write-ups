@@ -6,6 +6,8 @@ So lets start ..
 
 # Analysis
 
+## Initial Analysis
+
 First thing that is noticed is the wrong default Compiler ID guessed by Ghidra so we need to fix it:
 
 [![Watch the video](figs/v1.gif)](https://vimeo.com/559584993)
@@ -13,3 +15,21 @@ First thing that is noticed is the wrong default Compiler ID guessed by Ghidra s
 Lets fix this:
 
 [![Watch the video](figs/v2.gif)](https://vimeo.com/559590060)
+
+The executable obviously uses C++ and the C++ `std` library. There are string artefacts in support in this:
+
+![Std in strings](figs/s1-std.png)
+
+This is perfect opportunity for Ghidra's FID plugin. Based on the `GCC: (GNU) 8.3-win32 20190406` the exact version of Mingw-w64 toolchain and `libstdc++` library can be pinpointed to [g++-mingw-w64-x86-64](https://packages.debian.org/buster/g++-mingw-w64-x86-64). Lets create a new `.fiddb`:
+
+[![Watch the video](figs/v3.gif)](https://vimeo.com/559839745)
+
+Now we can apply it against our target:
+
+[![Watch the video](figs/v4.gif)](https://vimeo.com/559840666)
+
+That is better but we still have no clue where `main()` is.
+
+## Finding `main()`
+
+TO-DO: ..
