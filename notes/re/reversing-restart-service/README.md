@@ -4,8 +4,6 @@ This PE file is found on a HTB machine. A friend of mine gave it to me because h
 
 So lets start ..
 
-# Analysis
-
 ## Initial Analysis
 
 First thing that is noticed is the wrong default Compiler ID guessed by Ghidra so we need to fix it:
@@ -32,4 +30,14 @@ That is better but we still have no clue where `main()` is.
 
 ## Finding `main()`
 
-TO-DO: ..
+So we know `mingw-w64` is used. In `$GHIDRA_HOME/docs/GhidraClass/Advanced/Examples/` there is a example file - `animals.cpp`. A very simple C++ program with simple object initialization. The idea is to compile this file with `mingw-w64` and let `g++`'s symbols in and then analyse it with Ghidra. We find that `main()` is actually named `.text.startup`:
+
+[![Watch the video](figs/v5.gif)](https://vimeo.com/manage/videos/560280901)
+
+Finally we are at the gates of the challenge:
+
+![main()](figs/s2-main.png)
+
+## `main()` - Initial Analysis
+
+**TO-DO: ..**
