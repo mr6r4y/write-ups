@@ -33,7 +33,7 @@ Minding the **WARNING** the plan is:
 
 So we know `mingw-w64` is used. In `$GHIDRA_HOME/docs/GhidraClass/Advanced/Examples/` there is a example file - `animals.cpp`. A very simple C++ program with simple object initialization. The idea is to compile this file with `mingw-w64` and let `g++`'s symbols in and then analyse it with Ghidra. We find that `main()` is actually named `.text.startup`:
 
-[![Watch the video](figs/v5.gif)](https://vimeo.com/manage/videos/560280901)
+[![Watch the video](figs/v5.gif)](https://vimeo.com/560280901)
 
 Finally we are at the gates of the challenge:
 
