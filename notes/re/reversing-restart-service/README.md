@@ -10,23 +10,24 @@ First thing that is noticed is the wrong default Compiler ID guessed by Ghidra s
 
 [![Watch the video](figs/v1.gif)](https://vimeo.com/559584993)
 
-Lets fix this:
-
-[![Watch the video](figs/v2.gif)](https://vimeo.com/559590060)
+**WARNING:** Not quite a fix yet - [MinGW analysis identifies incorrect calling conventions and demanging analyzer partially fails](https://github.com/NationalSecurityAgency/ghidra/issues/2208). Unfortunatelly when choosing `gcc` as a Compiler ID the calling conventions of the executable are messed up (uses `__stdcall` instead of the right `__fastcall`). When you let the `windows` Compiler ID - the C++ symbol names are not demangled.
 
 The executable obviously uses C++ and the C++ `std` library. There are string artefacts in support in this:
 
 ![Std in strings](figs/s1-std.png)
 
-This is perfect opportunity for Ghidra's FID plugin. Based on the `GCC: (GNU) 8.3-win32 20190406` the exact version of Mingw-w64 toolchain and `libstdc++` library can be pinpointed to [g++-mingw-w64-x86-64](https://packages.debian.org/buster/g++-mingw-w64-x86-64). Lets create a new `.fiddb`:
+This is perfect opportunity for Ghidra's FID plugin. Based on the `GCC: (GNU) 8.3-win32 20190406` the exact version of Mingw-w64 toolchain and `libstdc++` library can be pinpointed to [g++-mingw-w64-x86-64](https://packages.debian.org/buster/g++-mingw-w64-x86-64). Lets extract `libstdc++-6.dll`:
 
-[![Watch the video](figs/v3.gif)](https://vimeo.com/559839745)
+[![Watch the video](figs/v2.gif)](https://vimeo.com/560524519)
 
-Now we can apply it against our target:
+Minding the **WARNING** the plan is:
 
-[![Watch the video](figs/v4.gif)](https://vimeo.com/559840666)
+1. Import and analyze `libstdc++-6.dll` with `gcc` Compiler ID - the `__stdcall` is the right one for `.dll` files.
+1. Leave `restart-service.exe` with the `windows` Compiler ID.
+1. Create and populate a `.fiddb` from `libstdc++` with Compiler ID in Language set to `windows`
+1. Apply this `.fiddb` to `restart-service.exe`
 
-That is better but we still have no clue where `main()` is.
+**TO-DO:** ..
 
 ## Finding `main()`
 
@@ -37,6 +38,8 @@ So we know `mingw-w64` is used. In `$GHIDRA_HOME/docs/GhidraClass/Advanced/Examp
 Finally we are at the gates of the challenge:
 
 ![main()](figs/s2-main.png)
+
+**TO-FIX:** Mind `gcc` bug and re-record the video
 
 ## `main()` - Initial Analysis
 
