@@ -27,19 +27,23 @@ Minding the **WARNING** the plan is:
 1. Create and populate a `.fiddb` from `libstdc++` with Compiler ID in Language set to `windows`
 1. Apply this `.fiddb` to `restart-service.exe`
 
-**TO-DO:** ..
+[![Watch the video](figs/v3.gif)](https://vimeo.com/560968132)
+
+Now we can separate partially the boilerplate code and we can easier locate `main()`.
 
 ## Finding `main()`
 
 So we know `mingw-w64` is used. In `$GHIDRA_HOME/docs/GhidraClass/Advanced/Examples/` there is a example file - `animals.cpp`. A very simple C++ program with simple object initialization. The idea is to compile this file with `mingw-w64` and let `g++`'s symbols in and then analyse it with Ghidra. We find that `main()` is actually named `.text.startup`:
 
-[![Watch the video](figs/v5.gif)](https://vimeo.com/560280901)
+
 
 Finally we are at the gates of the challenge:
 
 ![main()](figs/s2-main.png)
 
-**TO-FIX:** Mind `gcc` bug and re-record the video
+**TO-FIX:**
+- Mind `gcc` bug and re-record the video
+- Use `Program Compare` to show where main is 
 
 ## `main()` - Initial Analysis
 
