@@ -35,15 +35,11 @@ Now we can separate partially the boilerplate code and we can easier locate `mai
 
 So we know `mingw-w64` is used. In `$GHIDRA_HOME/docs/GhidraClass/Advanced/Examples/` there is a example file - `animals.cpp`. A very simple C++ program with simple object initialization. The idea is to compile this file with `mingw-w64` and let `g++`'s symbols in and then analyse it with Ghidra. We find that `main()` is actually named `.text.startup`:
 
-
+[![Watch the video](figs/v4.gif)](https://vimeo.com/561694968)
 
 Finally we are at the gates of the challenge:
 
 ![main()](figs/s2-main.png)
-
-**TO-FIX:**
-- Mind `gcc` bug and re-record the video
-- Use `Program Compare` to show where main is 
 
 ## `main()` - Initial Analysis
 
