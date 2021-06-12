@@ -142,7 +142,7 @@ So what happens is that all the exported function names are iterated. The first 
         } while (cVar1 != '\0');
 ```
 
-From the constants `0x811c9dc5` and `0x1000193` we find that this is [fnv1a_32](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function) implementation. The next video shows the execution of a script that emulates what the `decode_syscall_ids` does.
+From the constants `0x811c9dc5` and `0x1000193` we find that this is [fnv1a_32](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function) implementation. The next video shows the execution of a script that emulates what the `decode_syscall_ids` does ([MatchExportsToHash-FVN1a_32-PE.py](ghidra_scripts/MatchExportsToHash-FVN1a_32-PE.py) and [MatchExportsToHashAndReplaceWithSyscall-FVN1a_32-PE.py](ghidra_scripts/MatchExportsToHashAndReplaceWithSyscall-FVN1a_32-PE.py)):
 
 [![Watch the video](figs/v7.gif)](https://vimeo.com/562186810)
 
