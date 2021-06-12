@@ -96,7 +96,7 @@ I was able to put together [tebpeb64.h](tebpeb64.h) (Most of it is from [BytePoi
 1. Parse the `.h` with Ghidra and make a Data DB
 1. Use the new Data DB to annotate the appropriate structure data types
 
-TO-DO: video here
+[![Watch the video](figs/v5.gif)](https://vimeo.com/562144909)
 
 So we have the base address where the first DLL is loaded:
 
