@@ -108,7 +108,7 @@ So we have the base address where the first DLL is loaded:
 
 Later in this function `DllBase` is used in a bunch of other pointer dereferences.
 
-From [How to find dlls loaded into a process and its location etc](https://stackoverflow.com/questions/3454281/how-to-find-dlls-loaded-into-a-process-and-its-location-etc) and what we know from `FUN_004017b0` the best candidate is `ntdll.dll`. This makes perfect sense because `ntdll.dll` is the only place in Windows API where the `SYSCALL` instruction is used.
+From [How to find dlls loaded into a process and its location etc](https://stackoverflow.com/questions/3454281/how-to-find-dlls-loaded-into-a-process-and-its-location-etc) and what we know from `FUN_004017b0` the best candidate for `DllBase` is `ntdll.dll`. This makes perfect sense because `ntdll.dll` is the only place in Windows API where the `SYSCALL` instruction is used.
 
 For figuring out what the rest of the code is doing we'll take different approach. Beaceuse every operation and dereference is done on another program the easiest way is to implement a simple script and apply it to analyzed `ntdll.dll` program in Ghidra.
 
