@@ -114,4 +114,40 @@ For figuring out what the rest of the code is doing we'll take different approac
 
 ### Scripting in `ntdll.dll`
 
+First a working `ntdll.dll` is needed. Because I know that the target is taken from Windows 10 I can use newer `ntdll.dll` from [WikiDll](https://wikidll.com/microsoft/ntdll-dll)
+
+I have crafted a simple Ghidra script written in Jython to show what the following lines are refering to ([ShowNtdllAddresses.py](ghidra_scripts/ShowNtdllAddresses.py)):
+
+```c
+...
+  uVar8 = (ulonglong)*(uint *)(PVar2 + 0x88 + (longlong)*(int *)(PVar2 + 0x3c));
+  uVar9 = (ulonglong)*(uint *)(PVar2 + 0x18 + uVar8);
+...
+        pcVar7 = (char *)((ulonglong)*(uint *)(*(uint *)(PVar2 + 0x20 + uVar8) + PVar2 + uVar9 * 4)
+                         + PVar2 + 2);
+
+```
+
+[![Watch the video](figs/v6.gif)](https://vimeo.com/562182504)
+
+So what happens is that all the exported function names are iterated. The first two characters are discarded (` + 2);`). On the rest of the string is applied a hash calculation:
+
+```c
+        uVar3 = 0x811c9dc5;
+        do {
+          uVar6 = uVar3;
+          cVar1 = *pcVar7;
+          pcVar7 = pcVar7 + 1;
+          uVar3 = (uVar6 ^ (int)cVar1) * 0x1000193;
+        } while (cVar1 != '\0');
+```
+
+From the constants `0x811c9dc5` and `0x1000193` we find that this is [fnv1a_32](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function) implementation. The next video shows the execution of a script that emulates what the `decode_syscall_ids` does.
+
+[![Watch the video](figs/v7.gif)](https://vimeo.com/562186810)
+
+Now we have all the `SYSCALL` IDs decoded. We can move to the next function.
+
+## Analyzing `FUN_004017b0`
+
 TO-DO: ..
