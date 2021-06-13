@@ -196,4 +196,18 @@ which fills the `RSP` with the address after `CALL SUB_004085c1`. Next we have:
 .text:004085e2 41 ff e6        JMP                 R14
 ```
 
-so `POP R14` loads the address after `CALL SUB_004085c1` and makes a few code patches before returning execution there. Easiest thing to do is to do this patch by a script.
+so `POP R14` loads the address after `CALL SUB_004085c1` and makes a few code patches before returning execution there. Easiest thing to do is to do this patch by a script - [PayloadDecode-stage-1.py](ghidra_script/PayloadDecode-stage-1.py).
+
+After **stage-1** the following decoding routine appears:
+
+```
+.text:00401957 41 b3 4a        MOV                 R11B,0x4a
+.text:0040195a 48 c7 c1 4d     MOV                 RCX,0x6c4d
+.text:00401961 4c 8d 05 00     LEA                 R8,[0x401968]
+              LAB_00401968                               XREF[1]:     00401972(j)  
+.text:00401968 45 30 5c 08     XOR                 byte ptr [R8 + RCX*0x1 + 0xb],R11B
+.text:0040196d 45 02 5c 08     ADD                 R11B,byte ptr [R8 + RCX*0x1 + 0xb]
+.text:00401972 e2 f4           LOOP                LAB_00401968
+```
+
+**TO-DO**: ..
