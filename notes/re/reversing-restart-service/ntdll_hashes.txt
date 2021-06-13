@@ -1,5 +1,5 @@
-name: ds "NtDelayExecution", name_orig: NtDelayExecution, func_addr: 1800a54c0, syscall: 52, s: 0x3944AA7E, s_orig: 0x3944AA7E
-name: ds "NtAllocateVirtualMemory", name_orig: NtAllocateVirtualMemory, func_addr: 1800a5140, syscall: 24, s: 0x7EA69E72, s_orig: 0x7EA69E72
-name: ds "NtWriteVirtualMemory", name_orig: NtWriteVirtualMemory, func_addr: 1800a5580, syscall: 58, s: 0xDBA7A248, s_orig: 0xDBA7A248
-name: ds "NtCreateThreadEx", name_orig: NtCreateThreadEx, func_addr: 1800a64f0, syscall: 182, s: 0x57FF1EA4, s_orig: 0x57FF1EA4
-name: ds "NtWaitForSingleObject", name_orig: NtWaitForSingleObject, func_addr: 1800a4ec0, syscall: 4, s: 0x71948CA4, s_orig: 0x71948CA4
+name: ds "NtWriteVirtualMemory", name_orig: NtWriteVirtualMemory, func_addr: 1800a5580, syscall: 0x3A, s: 0xDBA7A248, s_orig: 0xDBA7A248
+name: ds "NtWaitForSingleObject", name_orig: NtWaitForSingleObject, func_addr: 1800a4ec0, syscall: 0x4, s: 0x71948CA4, s_orig: 0x71948CA4
+name: ds "NtDelayExecution", name_orig: NtDelayExecution, func_addr: 1800a54c0, syscall: 0x34, s: 0x3944AA7E, s_orig: 0x3944AA7E
+name: ds "NtCreateThreadEx", name_orig: NtCreateThreadEx, func_addr: 1800a64f0, syscall: 0xB6, s: 0x57FF1EA4, s_orig: 0x57FF1EA4
+name: ds "NtAllocateVirtualMemory", name_orig: NtAllocateVirtualMemory, func_addr: 1800a5140, syscall: 0x18, s: 0x7EA69E72, s_orig: 0x7EA69E72

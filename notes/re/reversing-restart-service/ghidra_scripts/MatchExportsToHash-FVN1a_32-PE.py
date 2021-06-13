@@ -38,7 +38,7 @@ def main():
         s_orig = fnv1a_32([ord(i) for i in func_name_orig[2:]]) if func_name_orig else 0x0
 
         if (s in hashes) and func_name and func_name.getValue().startswith("Nt") and syscall_dword is not None:
-            print("name: %s, name_orig: %s, func_addr: %s, syscall: %s, s: 0x%X, s_orig: 0x%X" % (func_name, func_name_orig, func_addr, syscall_dword, s, s_orig))
+            print("name: %s, name_orig: %s, func_addr: %s, syscall: %s, s: 0x%X, s_orig: 0x%X" % (func_name, func_name_orig, func_addr, ("0x%X" % syscall_dword) if syscall_dword is not None else "None", s, s_orig))
 
 
 if __name__ == "__main__":
