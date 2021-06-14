@@ -210,4 +210,6 @@ After **stage-1** the following decoding routine appears:
 .text:00401972 e2 f4           LOOP                LAB_00401968
 ```
 
+Now we can apply [PayloadDecode-stage-2.py](ghidra_scripts/PayloadDecode-stage-2.py) and try to decompile at `.text:00401974`.
+
 **TO-DO**: ..

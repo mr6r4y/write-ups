@@ -34,7 +34,7 @@ def toByte(a):
 def main():
     from_addr = toAddr(0x00401974)
     payload_len = 0x6c4d
-    key = 0x4a
+    key = toByte(0x4a)
 
     m = currentProgram.getMemory()
     t = ProgramTransaction.open(currentProgram, "Patching payload code - stage-2")
@@ -42,9 +42,9 @@ def main():
     for i in reversed(range(payload_len)):
         current_addr = toAddr(from_addr.getOffset() + i)
         a = getByte(current_addr)
-        c = (a ^ key)
+        c = toByte(a ^ key)
         m.setByte(current_addr, c)
-        key = (key + c) & 0xff
+        key = toByte(key + c)
 
     t.commit()
     t.close()
