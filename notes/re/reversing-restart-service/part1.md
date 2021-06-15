@@ -212,4 +212,20 @@ After **stage-1** the following decoding routine appears:
 
 Now we can apply [PayloadDecode-stage-2.py](ghidra_scripts/PayloadDecode-stage-2.py) and try to decompile at `.text:00401974`.
 
-**TO-DO**: ..
+[![Watch the video](figs/v9.gif)](https://vimeo.com/563152298)
+
+So now we are infront of `FUN_00403648`. Lets rename it: `FUN_00403648` -> `shellcode_main`.
+
+**To be continiued ..**
+
+## Conclusion
+
+In order this article to be readable lets take a break here. You see a more detailed demonstration of some of the intermediate features Ghidra can offer:
+
+- create and apply Function ID database
+- creation of Data Type database from a C header file
+- structure auto creation and work with complex data types
+- working with syscalls and applying the `OTHER` section trick
+- fixing the calling convention of a function
+- basic script usage
+- useage of scripts that patch the program
