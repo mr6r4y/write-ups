@@ -64,6 +64,9 @@ class AddressExplorer(object):
         print("v3_addr:offs2 = 0x%x" % offs2)
         return self.a.toAddr(self.image_base_offset + 2 + offs2)
 
+    def get_dll_name(self):
+        return self.a.getDataAt(self.a.toAddr(self.a.getInt(self.a.toAddr(self.image_base_offset + 0x0c + self.image_directory_entry_export())) + self.image_base_offset))
+
     def name_iter(self):
         number_of_names = self.export_number_of_names()
         address_of_names_offset = self.address_of_names_offset()
@@ -99,6 +102,8 @@ def main():
 
     print("address_of_name_ordinals_offset = 0x%x" % a.address_of_name_ordinals_offset())
     print("address_of_functions_offset = 0x%x" % a.address_of_functions_offset())
+
+    print("dll_name = %s" % a.get_dll_name())
 
 
 if __name__ == "__main__":
