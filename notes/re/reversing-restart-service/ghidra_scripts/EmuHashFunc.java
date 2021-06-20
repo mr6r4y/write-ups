@@ -8,13 +8,14 @@
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
-import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import generic.stl.Pair;
+import org.apache.commons.lang3.tuple.Triple;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+
 import ghidra.app.emulator.EmulatorHelper;
 import ghidra.app.script.GhidraScript;
 import ghidra.program.model.address.Address;
@@ -22,17 +23,20 @@ import ghidra.program.model.symbol.*;
 import ghidra.util.Msg;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.exception.NotFoundException;
-import ghidra.program.model.symbol.SymbolUtilities;
 
 
 public class EmuHashFunc extends GhidraScript {
 
-	private EmulatorHelper emu;
-	private Address do_some_hash_addr;
+	private String hash_func_name = "do_some_hash";
+	private String load_dll_func_name = "dynamic_load_get_func";
+	
 	private long stack_offset = 0x000000002FFF0000L;
 	private long stack_used = 0x10000L;
 	private long str_offset = 0x0;
-	private List<Pair<BigInteger, BigInteger>> dll_hashes;
+	
+	private EmulatorHelper emu;
+	private Address do_some_hash_addr;
+	private List<Triple<Long, Long, Address>> dll_hashes;
 
 	private Address getSymbolAddress(String symbolName) throws NotFoundException {
 		Symbol symbol = SymbolUtilities.getLabelOrFunctionSymbol(currentProgram, symbolName,
@@ -50,7 +54,7 @@ public class EmuHashFunc extends GhidraScript {
 	protected void emuInit() throws NotFoundException {
 		Address current_stack = toAddr(stack_offset - stack_used);
 		Address end_address = toAddr(0x00405b8);
-		do_some_hash_addr = getSymbolAddress("do_some_hash");
+		do_some_hash_addr = getSymbolAddress(hash_func_name);
 		
 		emu = new EmulatorHelper(currentProgram);
 		
@@ -60,7 +64,7 @@ public class EmuHashFunc extends GhidraScript {
 		emu.writeRegister(emu.getPCRegister(), do_some_hash_addr.getOffset());
 	}
 
-	protected BigInteger doSomeHash(String str, long hash) {
+	protected long doSomeHash(String str, long hash) {
 		Address str_mem = toAddr(stack_offset - str_offset);
 		byte[] str_bytes = str2bytes(str);
 		println(Arrays.toString(str_bytes));
@@ -72,57 +76,85 @@ public class EmuHashFunc extends GhidraScript {
 		try {
 			emu.run(monitor);
 		} catch (CancelledException e) {
-			return BigInteger.ZERO;
+			return 0L;
 		}
-		
-		BigInteger rax = emu.readRegister("RAX");
-		
+
+		Long rax = emu.readRegister("RAX").longValue();
+
 		return rax;
 	}
+
+	protected boolean checkDllFuncName(String dll_name, String func_name, long dll_func_hash, long key) {
+		String dll_name_lower = dll_name.toLowerCase();
+		long dll_h = doSomeHash(dll_name_lower, key);
+		long func_h = doSomeHash(func_name, key);
+		
+		return (dll_h ^ func_h) == dll_func_hash;
+	}
 	
-	protected boolean checkDllFuncName(String dll_name, String func_name, BigInteger dll_func_hash, BigInteger key) {
-		// TO-DO: Implement the DLL-func check
-		return false;
+	private Long getDllFuncHashFromCallRef(Reference ref) {
+		// TO-DO: Implement backward propagation to references to data if any in RCX register
+		return 0L;
+	}
+	
+	private Long getKeyFromCallRef(Reference ref) {
+		// TO-DO: Implement backward propagation to references to data if any in RDX register
+		return 0L;
 	}
 
-	protected List<Pair<BigInteger, BigInteger>> collectDllHashes() {
-		// TO-DO: Gather all the <dll_func_hash>:<key> from the program itself
-		return new ArrayList<Pair<BigInteger, BigInteger>>();
+	protected List<Triple<Long, Long, Address>> collectDllHashes() throws NotFoundException {
+		Address f_addr = getSymbolAddress(load_dll_func_name);
+		
+		ArrayList<Triple<Long, Long, Address>> res = new ArrayList<Triple<Long, Long, Address>>();
+		ReferenceManager r = currentProgram.getReferenceManager();
+		ReferenceIterator references = r.getReferencesTo(f_addr);
+		
+		for(Reference ref: references) {
+			Long h = getDllFuncHashFromCallRef(ref);
+			Long k = getKeyFromCallRef(ref);
+			Address a = ref.getFromAddress();
+			Triple<Long, Long, Address> t = new ImmutableTriple<Long, Long, Address>(h, k, a);
+			res.add(t);
+		}
+		
+		return res;
 	}
-	
+
 	@Override
 	protected void run() throws Exception {
 		File names_fl;
-		
-		try {
-			emuInit();
-		}catch (NotFoundException e) {
-			printerr("Hash function symbol could not be found!");
-		}
 
 		try {
 			names_fl = askFile("Supply a file with <dll-name>:<func-name> list to be checked", getCategory());
-		}catch (CancelledException e) {
+		} catch (CancelledException e) {
 			return;
 		}
 		
-		dll_hashes = collectDllHashes();
+		try {
+			dll_hashes = collectDllHashes();
+		} catch (NotFoundException e) {
+			printerr(load_dll_func_name + "function symbol could not be found!");
+			return;
+		}
+		
+		try {
+			emuInit();
+		} catch (NotFoundException e) {
+			printerr(hash_func_name + "function symbol could not be found!");
+		}
 
 		String line;
 		FileReader nr = new FileReader(names_fl.getAbsolutePath());
 		BufferedReader br = new BufferedReader(nr);
 		while((line = br.readLine()) != null) {
-			for(Pair<BigInteger, BigInteger> p: dll_hashes) {
+			for(Triple<Long, Long, Address> p: dll_hashes) {
 				String[] s = line.split(":");
-				if(checkDllFuncName(s[0], s[1], p.first, p.second)) {
-					printf("name: %s, dll_func_hash: %X, key: %X\n", line, p.first, p.second);
+				if(checkDllFuncName(s[0], s[1], p.getLeft(), p.getMiddle())) {
+					printf("name: %s, dll_func_hash: %X, key: %X\n", line, p.getLeft(), p.getMiddle());
 				}
 			}
 		}
 		
-		
-//		BigInteger a = doSomeHash("kernel32.dll", 0x406E72A20F0BE37DL);
-//		printf("a=%X\n", a);
 		emu.dispose();
 	}
 	
