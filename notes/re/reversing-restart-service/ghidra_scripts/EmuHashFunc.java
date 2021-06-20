@@ -19,6 +19,7 @@ import ghidra.app.emulator.EmulatorHelper;
 import ghidra.app.script.GhidraScript;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.lang.Register;
+import ghidra.program.model.listing.CodeUnit;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.listing.Listing;
 import ghidra.program.model.mem.MemoryAccessException;
@@ -178,6 +179,7 @@ public class EmuHashFunc extends GhidraScript {
 		String line;
 		FileReader nr = new FileReader(names_fl.getAbsolutePath());
 		BufferedReader br = new BufferedReader(nr);
+		Listing listing = currentProgram.getListing();
 		
 		while((line = br.readLine()) != null) {
 			String[] s = line.split(":");
@@ -190,7 +192,8 @@ public class EmuHashFunc extends GhidraScript {
 				}
 				
 				if (current_hash.equals(p.getLeft())) {
-					printf("name: %s, dll_func_hash: %X, key: %X, ref: %s\n", line, p.getLeft(), p.getMiddle(), p.getRight().toString());
+					listing.setComment(p.getRight(), CodeUnit.EOL_COMMENT, line);
+					printf("Set comment for name: %s, dll_func_hash: %X, key: %X, ref: %s\n", line, p.getLeft(), p.getMiddle(), p.getRight().toString());
 				}
 				
 				if (monitor.isCancelled()) {
