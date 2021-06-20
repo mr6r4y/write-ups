@@ -189,8 +189,8 @@ public class EmuHashFunc extends GhidraScript {
 					current_hash = calckDllFuncNameHash(s[0], s[1], last_key);
 				}
 				
-				if (current_hash == p.getLeft() ) {
-					printf("name: %s, dll_func_hash: %X, key: %X\n", line, p.getLeft(), p.getMiddle());
+				if (current_hash.equals(p.getLeft())) {
+					printf("name: %s, dll_func_hash: %X, key: %X, ref: %s\n", line, p.getLeft(), p.getMiddle(), p.getRight().toString());
 				}
 				
 				if (monitor.isCancelled()) {
