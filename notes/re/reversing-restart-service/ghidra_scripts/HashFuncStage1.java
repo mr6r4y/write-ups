@@ -29,7 +29,7 @@ import ghidra.util.exception.CancelledException;
 import ghidra.util.exception.NotFoundException;
 
 
-public class EmuHashFunc extends GhidraScript {
+public class HashFuncStage1 extends GhidraScript {
 
 	private String hash_func_name = "do_some_hash";
 	private String load_dll_func_name = "dynamic_load_get_func";
