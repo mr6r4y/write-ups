@@ -31,20 +31,20 @@ import ghidra.util.exception.NotFoundException;
 
 public class HashFuncStage1 extends GhidraScript {
 
-	private String hash_func_name = "do_some_hash";
-	private String load_dll_func_name = "dynamic_load_get_func";
+	protected String hash_func_name = "do_some_hash";
+	protected String load_dll_func_name = "dynamic_load_get_func";
 	
-	private long stack_offset = 0x000000002FFF0000L;
-	private long stack_used = 0x10000L;
-	private long str_offset = 0x0;
-	private long current_stack = stack_offset - stack_used;
-	private long end_address_offset = 0x00405b8;
+	protected long stack_offset = 0x000000002FFF0000L;
+	protected long stack_used = 0x10000L;
+	protected long str_offset = 0x0;
+	protected long current_stack = stack_offset - stack_used;
+	protected long end_address_offset = 0x00405b8;
 	
-	private EmulatorHelper emu;
-	private Address do_some_hash_addr;
-	private List<Triple<Long, Long, Address>> dll_hashes;
+	protected EmulatorHelper emu;
+	protected Address do_some_hash_addr;
+	protected List<Triple<Long, Long, Address>> dll_hashes;
 
-	private Address getSymbolAddress(String symbolName) throws NotFoundException {
+	protected Address getSymbolAddress(String symbolName) throws NotFoundException {
 		Symbol symbol = SymbolUtilities.getLabelOrFunctionSymbol(currentProgram, symbolName,
 			err -> Msg.error(this, err));
 		if (symbol != null) {
@@ -53,7 +53,7 @@ public class HashFuncStage1 extends GhidraScript {
 		throw new NotFoundException("Failed to locate label: " + symbolName);
 	}
 	
-	private byte[] str2bytes(String str) {
+	protected byte[] str2bytes(String str) {
 		return (str + "\0").getBytes(Charset.forName("UTF-8"));
 	}
 	
@@ -95,7 +95,7 @@ public class HashFuncStage1 extends GhidraScript {
 		return (dll_h ^ func_h);
 	}
 	
-	private Long getRegRefFromCallAddr(Address call_addr, Listing l, String reg_name) {
+	protected Long getRegRefFromCallAddr(Address call_addr, Listing l, String reg_name) {
 		Instruction ins = l.getInstructionBefore(call_addr);
 		for(byte i = 5; i > 0; i--) {
 			Object[] op_ar = ins.getOpObjects(0);
@@ -117,11 +117,11 @@ public class HashFuncStage1 extends GhidraScript {
 		return 0L;
 	}
 	
-	private Long getDllFuncHashFromCallAddr(Address call_addr, Listing l) {
+	protected Long getDllFuncHashFromCallAddr(Address call_addr, Listing l) {
 		return getRegRefFromCallAddr(call_addr, l, "RDX");
 	}
 
-	private Long getKeyFromCallAddr(Address call_addr, Listing l) {
+	protected Long getKeyFromCallAddr(Address call_addr, Listing l) {
 		return getRegRefFromCallAddr(call_addr, l, "R8");
 	}
 
@@ -145,6 +145,12 @@ public class HashFuncStage1 extends GhidraScript {
 		}
 		
 		return res;
+	}
+	
+	protected void doStuffWithTripple(Triple<Long, Long, Address> p, String line) {
+		Listing listing = currentProgram.getListing();
+		listing.setComment(p.getRight(), CodeUnit.EOL_COMMENT, line);
+		printf("Set comment for name: %s, dll_func_hash: %X, key: %X, ref: %s\n", line, p.getLeft(), p.getMiddle(), p.getRight().toString());
 	}
 
 	@Override
@@ -179,7 +185,6 @@ public class HashFuncStage1 extends GhidraScript {
 		String line;
 		FileReader nr = new FileReader(names_fl.getAbsolutePath());
 		BufferedReader br = new BufferedReader(nr);
-		Listing listing = currentProgram.getListing();
 		
 		while((line = br.readLine()) != null) {
 			String[] s = line.split(":");
@@ -192,8 +197,7 @@ public class HashFuncStage1 extends GhidraScript {
 				}
 				
 				if (current_hash.equals(p.getLeft())) {
-					listing.setComment(p.getRight(), CodeUnit.EOL_COMMENT, line);
-					printf("Set comment for name: %s, dll_func_hash: %X, key: %X, ref: %s\n", line, p.getLeft(), p.getMiddle(), p.getRight().toString());
+					doStuffWithTripple(p, line);
 				}
 				
 				if (monitor.isCancelled()) {
